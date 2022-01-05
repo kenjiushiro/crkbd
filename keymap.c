@@ -60,7 +60,7 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
 
   [_NUMERIC] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      _______,  KC_TAB,LSFT(KC_EQL),LSFT(KC_MINUS),KC_EQL, XXXXXXX,              XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX, KC_BSPC,
+      _______,  KC_TAB,LSFT(KC_EQL),KC_MINUS,KC_EQL, XXXXXXX,              XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LCTL, XXXXXXX,LSFT(KC_8),KC_SLSH, XXXXXXX, XXXXXXX,                     XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -72,7 +72,7 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
 
   [_NAVIGATION] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      ALT_TAB,  KC_INS, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
+      LSALT_TAB,  ALT_TAB, KC_INS, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_PSCR, KC_BSPC, KC_LCTL, KC_LSFT,  KC_ENT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -184,7 +184,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
 void matrix_scan_user(void) { // The very important timer.
   if (is_alt_tab_active) {
-    if (timer_elapsed(alt_tab_timer) > 1000) {
+    if (timer_elapsed(alt_tab_timer) > 500) {
       unregister_code(KC_LALT);
       is_alt_tab_active = false;
     }
