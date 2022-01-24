@@ -59,7 +59,7 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                              MO(_NAVIGATION_MAC),MO(_SYMBOLS),  KC_SPC,    KC_LGUI, MO(_FN_KEYS), KC_LALT
+                              MO(_NAVIGATION),MO(_SYMBOLS),  KC_SPC,    KC_LGUI, MO(_FN_KEYS), KC_LALT
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -68,11 +68,11 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
 LT(_NUMERIC, KC_TAB), KC_Q,KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-LGUI_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_DEL,
+LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                              MO(_NAVIGATION),MO(_SYMBOLS),  KC_SPC,    KC_LCTL, MO(_FN_KEYS), KC_LALT
+                              MO(_NAVIGATION_MAC),MO(_SYMBOLS),  KC_SPC,    KC_LGUI, MO(_FN_KEYS), KC_LALT
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -138,7 +138,7 @@ LGUI_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
 
   [_CONFIG] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      CG_SWAP, XXXXXXX, KC_MS_U, XXXXXXX, DF(_QWERTY), DF(_QWERTY_MAC),          KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, LIVE_EMAIL, GMAIL_EMAIL,
+      XXXXXXX, XXXXXXX, KC_MS_U, XXXXXXX, DF(_QWERTY), DF(_QWERTY_MAC),          KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, LIVE_EMAIL, GMAIL_EMAIL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, TIENDANUBE_EMAIL, DEVARTIS_EMAIL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
