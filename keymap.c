@@ -40,6 +40,7 @@ enum custom_keycodes  {
     LIVE_EMAIL,
     DEVARTIS_EMAIL,
     TIENDANUBE_EMAIL,
+    CHECKOUT_TN_BR,
     ALT_TAB,
     LSALT_TAB,
 };
@@ -75,11 +76,11 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       LSALT_TAB,  ALT_TAB, KC_INS, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_PSCR, KC_BSPC, KC_LCTL, KC_LSFT,  KC_ENT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
+      KC_PSCR, KC_BSPC, KC_LCTL,  KC_DEL,  KC_ENT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LGUI, XXXXXXX, KC_LALT,   KC_DEL, XXXXXXX,XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
+      KC_LSFT, KC_BSPC, KC_LALT,  KC_DEL, XXXXXXX,XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                          _______, XXXXXXX, XXXXXXX,     XXXXXXX, XXXXXXX, XXXXXXX
+                                          _______, XXXXXXX, XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
   ),
 
@@ -87,7 +88,7 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       LSFT(KC_GRV),LSFT(KC_1),LSFT(KC_5),LSFT(KC_3),LSFT(KC_8),XXXXXXX,         XXXXXXX,LSFT(KC_4),LSFT(KC_LBRC),LSFT(KC_RBRC),KC_EQL,KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LCTL,LSFT(KC_4),KC_GRV,LSFT(KC_QUOT),KC_QUOT,XXXXXXX,                  XXXXXXX, LSFT(KC_9),LSFT(KC_0),XXXXXXX, KC_MINUS,XXXXXXX,
+      LSFT(KC_2),LSFT(KC_4),KC_GRV,LSFT(KC_QUOT),KC_QUOT,XXXXXXX,                  XXXXXXX, LSFT(KC_9),LSFT(KC_0),XXXXXXX, KC_MINUS,XXXXXXX,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,KC_BSLS,LSFT(KC_6),LSFT(KC_7),LSFT(KC_BSLS),XXXXXXX,              XXXXXXX,KC_LBRC,KC_RBRC,XXXXXXX,LSFT(KC_MINUS),XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -112,7 +113,7 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, TIENDANUBE_EMAIL, DEVARTIS_EMAIL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
+      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, CHECKOUT_TN_BR,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          XXXXXXX, _______,  XXXXXXX,     XXXXXXX, _______, XXXXXXX
                                       //`--------------------------'  `--------------------------'
@@ -172,6 +173,24 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       } else {
         unregister_code(KC_TAB);
       }
+      break;
+    case CHECKOUT_TN_BR:
+      if (record->event.pressed) {
+        SEND_STRING("4111111111111111");
+        tap_code(KC_TAB);
+        SEND_STRING("pepe lopez");
+        tap_code(KC_TAB);
+        SEND_STRING("1225");
+        tap_code(KC_TAB);
+        SEND_STRING("321");
+        tap_code(KC_TAB);
+        tap_code(KC_TAB);
+        SEND_STRING("826.218.005-48");
+        tap_code(KC_TAB);
+        SEND_STRING("0123132321");
+        tap_code(KC_TAB);
+      }
+      return false;
       break;
   }
   return true;
