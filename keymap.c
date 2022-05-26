@@ -38,7 +38,6 @@ enum layers {
 enum custom_keycodes  {
     GMAIL_EMAIL = SAFE_RANGE,
     LIVE_EMAIL,
-    DEVARTIS_EMAIL,
     TIENDANUBE_EMAIL,
     CHECKOUT_TN_BR,
     ALT_TAB,
@@ -54,7 +53,7 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                              MO(_NAVIGATION),MO(_SYMBOLS),  KC_SPC,    KC_LGUI, MO(_FN_KEYS), KC_LALT
+                               MO(_NAVIGATION),MO(_SYMBOLS),  KC_SPC,    KC_LGUI, MO(_FN_KEYS),KC_LALT
                                       //`--------------------------'  `--------------------------'
 
   ),
@@ -88,7 +87,7 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       LSFT(KC_GRV),LSFT(KC_1),LSFT(KC_5),LSFT(KC_3),LSFT(KC_8),XXXXXXX,         XXXXXXX,LSFT(KC_4),LSFT(KC_LBRC),LSFT(KC_RBRC),KC_EQL,KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      LSFT(KC_2),LSFT(KC_4),KC_GRV,LSFT(KC_QUOT),KC_QUOT,XXXXXXX,                  XXXXXXX, LSFT(KC_9),LSFT(KC_0),XXXXXXX, KC_MINUS,XXXXXXX,
+      LSFT(KC_2),LSFT(KC_4),KC_GRV,LSFT(KC_QUOT),KC_QUOT,XXXXXXX,               XXXXXXX, LSFT(KC_9),LSFT(KC_0),XXXXXXX, KC_MINUS,LSFT(KC_DOT),
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT,KC_BSLS,LSFT(KC_6),LSFT(KC_7),LSFT(KC_BSLS),XXXXXXX,              XXXXXXX,KC_LBRC,KC_RBRC,XXXXXXX,LSFT(KC_MINUS),XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -111,9 +110,9 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
       XXXXXXX, XXXXXXX, KC_MS_U, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, LIVE_EMAIL, GMAIL_EMAIL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, TIENDANUBE_EMAIL, DEVARTIS_EMAIL,
+      XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX, TIENDANUBE_EMAIL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, CHECKOUT_TN_BR,
+      RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          XXXXXXX, _______,  XXXXXXX,     XXXXXXX, _______, XXXXXXX
                                       //`--------------------------'  `--------------------------'
@@ -133,12 +132,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case LIVE_EMAIL:
       if (record->event.pressed) {
           SEND_STRING("kenjiushiro@live.com");
-      }
-      return false;
-      break;
-    case DEVARTIS_EMAIL:
-      if (record->event.pressed) {
-          SEND_STRING("kushiro@devartis.com");
       }
       return false;
       break;
@@ -214,26 +207,36 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 }
 
 #define L_BASE 0
-#define L_LOWER 2
-#define L_RAISE 4
-#define L_ADJUST 8
+#define L_NUMERIC 2
+#define L_NAVIGATION 4
+#define L_SYMBOLS 8
+#define L_FUNCTION_KEYS 16
+#define L_MOUSE 32
 
 void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
         case L_BASE:
-            oled_write_ln_P(PSTR("Default"), false);
+            oled_write_ln_P(PSTR("Base"), false);
             break;
-        case L_LOWER:
-            oled_write_ln_P(PSTR("Lower"), false);
+        case L_NUMERIC:
+            oled_write_ln_P(PSTR("Numeric"), false);
             break;
-        case L_RAISE:
-            oled_write_ln_P(PSTR("Raise"), false);
+        case L_NAVIGATION:
+            oled_write_ln_P(PSTR("Navigation"), false);
             break;
-        case L_ADJUST:
-        case L_ADJUST|L_LOWER:
-        case L_ADJUST|L_RAISE:
-        case L_ADJUST|L_LOWER|L_RAISE:
+        case L_SYMBOLS:
+            oled_write_ln_P(PSTR("Symbols"), false);
+            break;
+        case L_FUNCTION_KEYS:
+            oled_write_ln_P(PSTR("Function Keys"), false);
+            break;
+        case L_MOUSE:
+            oled_write_ln_P(PSTR("Mouse mode"), false);
+            break;
+        case L_SYMBOLS|L_NUMERIC:
+        case L_SYMBOLS|L_NAVIGATION:
+        case L_SYMBOLS|L_NUMERIC|L_NAVIGATION:
             oled_write_ln_P(PSTR("Adjust"), false);
             break;
     }
