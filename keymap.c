@@ -42,6 +42,8 @@ enum custom_keycodes  {
     CHECKOUT_TN_BR,
     ALT_TAB,
     LSALT_TAB,
+    DESKTOP_LEFT,
+    DESKTOP_RIGHT,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -73,9 +75,9 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
 
   [_NAVIGATION] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      LSALT_TAB,  ALT_TAB, KC_INS, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
+      LSALT_TAB,  ALT_TAB, KC_INS,DESKTOP_LEFT,DESKTOP_RIGHT,XXXXXXX,           XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_PSCR, KC_BSPC, KC_LCTL,  KC_DEL,  KC_ENT, XXXXXXX,                      KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
+      KC_PSCR, KC_BSPC, KC_LCTL,  KC_DEL,  KC_ENT, XXXXXXX,                     KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_LSFT, KC_BSPC, KC_LALT,  KC_DEL, XXXXXXX,XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -182,6 +184,22 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         tap_code(KC_TAB);
         SEND_STRING("0123132321");
         tap_code(KC_TAB);
+      }
+      return false;
+      break;
+    case DESKTOP_LEFT:
+      if (record->event.pressed) {
+          register_code(KC_LCTL);
+          tap_code(KC_LEFT);
+          unregister_code(KC_LCTL);
+          return false;
+      }
+      break;
+    case DESKTOP_RIGHT:
+      if (record->event.pressed) {
+          register_code(KC_LCTL);
+          tap_code(KC_RIGHT);
+          unregister_code(KC_LCTL);
       }
       return false;
       break;
