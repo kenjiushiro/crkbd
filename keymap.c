@@ -57,6 +57,10 @@ enum custom_keycodes  {
     SWITCH_TO_WINDOWS,
     SWITCH_TO_LINUX,
     WORD_MODIFIER,
+    UNDO,
+    CUT,
+    COPY,
+    PASTE,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -88,11 +92,11 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
 
   [_NAVIGATION] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      LSALT_TAB,  ALT_TAB, DESKTOP_LEFT,DESKTOP_UP,DESKTOP_RIGHT,KC_INS,           XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
+      LSALT_TAB,  ALT_TAB, DESKTOP_LEFT,DESKTOP_UP,DESKTOP_RIGHT,KC_INS,        XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_PSCR, KC_BSPC, WORD_MODIFIER,  KC_LSFT,  KC_ENT, XXXXXXX,                     KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
+      KC_PSCR, KC_BSPC, WORD_MODIFIER,  KC_DEL,  KC_ENT, XXXXXXX,              KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, XXXXXXX, XXXXXXX,  KC_DEL, XXXXXXX,XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
+      KC_LSFT, UNDO, CUT,  COPY, PASTE,XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, XXXXXXX, XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
@@ -231,6 +235,70 @@ void unhold_word_modifier(void) {
     }
 }
 
+void undo(void) {
+    switch (currentOS) {
+        case _MAC:
+            register_code(KC_LGUI);
+            tap_code(KC_Z);
+            unregister_code(KC_LGUI);
+            break;
+        case _WINDOWS:
+        case _LINUX:
+            register_code(KC_LCTL);
+            tap_code(KC_Z);
+            unregister_code(KC_LCTL);
+            break;
+    }
+}
+
+void cut(void) {
+    switch (currentOS) {
+        case _MAC:
+            register_code(KC_LGUI);
+            tap_code(KC_X);
+            unregister_code(KC_LGUI);
+            break;
+        case _WINDOWS:
+        case _LINUX:
+            register_code(KC_LCTL);
+            tap_code(KC_X);
+            unregister_code(KC_LCTL);
+            break;
+    }
+}
+
+void copy(void) {
+    switch (currentOS) {
+        case _MAC:
+            register_code(KC_LGUI);
+            tap_code(KC_C);
+            unregister_code(KC_LGUI);
+            break;
+        case _WINDOWS:
+        case _LINUX:
+            register_code(KC_LCTL);
+            tap_code(KC_C);
+            unregister_code(KC_LCTL);
+            break;
+    }
+}
+
+void paste(void) {
+    switch (currentOS) {
+        case _MAC:
+            register_code(KC_LGUI);
+            tap_code(KC_V);
+            unregister_code(KC_LGUI);
+            break;
+        case _WINDOWS:
+        case _LINUX:
+            register_code(KC_LCTL);
+            tap_code(KC_V);
+            unregister_code(KC_LCTL);
+            break;
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
     case GMAIL_EMAIL:
@@ -336,6 +404,30 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         hold_word_modifier();
       } else {
         unhold_word_modifier();
+      }
+      return false;
+      break;
+    case UNDO:
+      if (record->event.pressed) {
+          undo();
+      }
+      return false;
+      break;
+    case CUT:
+      if (record->event.pressed) {
+          cut();
+      }
+      return false;
+      break;
+    case COPY:
+      if (record->event.pressed) {
+          copy();
+      }
+      return false;
+      break;
+    case PASTE:
+      if (record->event.pressed) {
+          paste();
       }
       return false;
       break;
