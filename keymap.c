@@ -44,6 +44,7 @@ enum custom_keycodes  {
     LSALT_TAB,
     DESKTOP_LEFT,
     DESKTOP_RIGHT,
+    DESKTOP_UP,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -75,7 +76,7 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
 
   [_NAVIGATION] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      LSALT_TAB,  ALT_TAB, KC_INS,DESKTOP_LEFT,DESKTOP_RIGHT,XXXXXXX,           XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
+      LSALT_TAB,  ALT_TAB, KC_INS,DESKTOP_LEFT,DESKTOP_RIGHT,DESKTOP_UP,           XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
       KC_PSCR, KC_BSPC, KC_LCTL,  KC_DEL,  KC_ENT, XXXXXXX,                     KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -199,6 +200,14 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
           register_code(KC_LCTL);
           tap_code(KC_RIGHT);
+          unregister_code(KC_LCTL);
+      }
+      return false;
+      break;
+    case DESKTOP_UP:
+      if (record->event.pressed) {
+          register_code(KC_LCTL);
+          tap_code(KC_UP);
           unregister_code(KC_LCTL);
       }
       return false;
