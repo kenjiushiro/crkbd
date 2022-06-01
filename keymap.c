@@ -26,6 +26,14 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
+enum OS {
+    _MAC,
+    _WINDOWS,
+    _LINUX,
+};
+
+int currentOS = _MAC;
+
 enum layers {
   _QWERTY,
   _NUMERIC,
@@ -45,6 +53,10 @@ enum custom_keycodes  {
     DESKTOP_LEFT,
     DESKTOP_RIGHT,
     DESKTOP_UP,
+    SWITCH_TO_MAC,
+    SWITCH_TO_WINDOWS,
+    SWITCH_TO_LINUX,
+    WORD_MODIFIER,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -76,11 +88,11 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
 
   [_NAVIGATION] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      LSALT_TAB,  ALT_TAB, KC_INS,DESKTOP_LEFT,DESKTOP_RIGHT,DESKTOP_UP,           XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
+      LSALT_TAB,  ALT_TAB, DESKTOP_LEFT,DESKTOP_UP,DESKTOP_RIGHT,KC_INS,           XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_PSCR, KC_BSPC, KC_LCTL,  KC_DEL,  KC_ENT, XXXXXXX,                     KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
+      KC_PSCR, KC_BSPC, WORD_MODIFIER,  KC_LSFT,  KC_ENT, XXXXXXX,                     KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      KC_LSFT, KC_BSPC, KC_LALT,  KC_DEL, XXXXXXX,XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
+      XXXXXXX, XXXXXXX, XXXXXXX,  KC_DEL, XXXXXXX,XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                           _______, XXXXXXX, XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
                                       //`--------------------------'  `--------------------------'
@@ -111,11 +123,11 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
 
   [_CONFIG] = LAYOUT_split_3x6_3(
   //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-      XXXXXXX, XXXXXXX, KC_MS_U, XXXXXXX, XXXXXXX, XXXXXXX,                      KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, LIVE_EMAIL, GMAIL_EMAIL,
+      XXXXXXX, XXXXXXX, KC_MS_U, XXXXXXX, XXXXXXX, SWITCH_TO_WINDOWS,                      KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, LIVE_EMAIL, GMAIL_EMAIL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX, TIENDANUBE_EMAIL,
+      XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, SWITCH_TO_MAC,                      XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX, TIENDANUBE_EMAIL,
   //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-      RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
+      RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, SWITCH_TO_LINUX,                      XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, XXXXXXX, XXXXXXX,
   //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                          XXXXXXX, _______,  XXXXXXX,     XXXXXXX, _______, XXXXXXX
                                       //`--------------------------'  `--------------------------'
@@ -123,8 +135,103 @@ LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                     
 };
 
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+void writeOsName(void) {
+    switch (currentOS) {
+        case _WINDOWS:
+            oled_write_ln_P(PSTR("Windows"), false);
+            break;
+        case _MAC:
+            oled_write_ln_P(PSTR("Mac"), false);
+            break;
+        case _LINUX:
+            oled_write_ln_P(PSTR("Linux"), false);
+            break;
+    }
+}
 
+void register_desktop_switch_modifier(void) {
+    switch (currentOS) {
+        case _WINDOWS:
+            register_code(KC_LCTL);
+            register_code(KC_LGUI);
+            break;
+        case _MAC:
+            register_code(KC_LCTL);
+            break;
+        case _LINUX:
+            break;
+    }
+}
+
+void unregister_desktop_switch_modifier(void) {
+    switch (currentOS) {
+        case _WINDOWS:
+            unregister_code(KC_LCTL);
+            unregister_code(KC_LGUI);
+            break;
+        case _MAC:
+            unregister_code(KC_LCTL);
+            break;
+        case _LINUX:
+            break;
+    }
+}
+
+void desktop_switch(int direction) {
+    register_desktop_switch_modifier();
+    tap_code(direction);
+    unregister_desktop_switch_modifier();
+}
+
+void register_alt_tab_modifier(void) {
+    switch (currentOS) {
+        case _MAC:
+            register_code(KC_LGUI);
+            break;
+        case _WINDOWS:
+        case _LINUX:
+            register_code(KC_LALT);
+            break;
+    }
+}
+
+void unregister_alt_tab_modifier(void) {
+    switch (currentOS) {
+        case _MAC:
+            unregister_code(KC_LGUI);
+            break;
+        case _WINDOWS:
+        case _LINUX:
+            unregister_code(KC_LALT);
+            break;
+    }
+}
+
+void hold_word_modifier(void) {
+    switch (currentOS) {
+        case _MAC:
+            register_code(KC_LALT);
+            break;
+        case _WINDOWS:
+        case _LINUX:
+            register_code(KC_LCTL);
+            break;
+    }
+}
+
+void unhold_word_modifier(void) {
+    switch (currentOS) {
+        case _MAC:
+            unregister_code(KC_LALT);
+            break;
+        case _WINDOWS:
+        case _LINUX:
+            unregister_code(KC_LCTL);
+            break;
+    }
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch(keycode) {
     case GMAIL_EMAIL:
       if (record->event.pressed) {
@@ -148,7 +255,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         if (!is_alt_tab_active) {
           is_alt_tab_active = true;
-          register_code(KC_LALT);
+          register_alt_tab_modifier();
         }
         alt_tab_timer = timer_read();
         register_code(KC_TAB);
@@ -190,28 +297,49 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case DESKTOP_LEFT:
       if (record->event.pressed) {
-          register_code(KC_LCTL);
-          tap_code(KC_LEFT);
-          unregister_code(KC_LCTL);
-          return false;
+        desktop_switch(KC_LEFT);
+        return false;
       }
       break;
     case DESKTOP_RIGHT:
       if (record->event.pressed) {
-          register_code(KC_LCTL);
-          tap_code(KC_RIGHT);
-          unregister_code(KC_LCTL);
+        desktop_switch(KC_RIGHT);
       }
       return false;
       break;
     case DESKTOP_UP:
       if (record->event.pressed) {
-          register_code(KC_LCTL);
-          tap_code(KC_UP);
-          unregister_code(KC_LCTL);
+        desktop_switch(KC_UP);
       }
       return false;
       break;
+    case SWITCH_TO_MAC:
+      if (record->event.pressed) {
+        currentOS = _MAC;
+      }
+      return false;
+      break;
+    case SWITCH_TO_WINDOWS:
+      if (record->event.pressed) {
+        currentOS = _WINDOWS;
+      }
+      return false;
+      break;
+    case SWITCH_TO_LINUX:
+      if (record->event.pressed) {
+        currentOS = _LINUX;
+      }
+      return false;
+      break;
+    case WORD_MODIFIER:
+      if (record->event.pressed) {
+        hold_word_modifier();
+      } else {
+        unhold_word_modifier();
+      }
+      return false;
+      break;
+
   }
   return true;
 }
@@ -219,7 +347,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 void matrix_scan_user(void) { // The very important timer.
   if (is_alt_tab_active) {
     if (timer_elapsed(alt_tab_timer) > 866) {
-      unregister_code(KC_LALT);
+      unregister_alt_tab_modifier();
       is_alt_tab_active = false;
     }
   }
@@ -244,7 +372,7 @@ void oled_render_layer_state(void) {
     oled_write_P(PSTR("Layer: "), false);
     switch (layer_state) {
         case L_BASE:
-            oled_write_ln_P(PSTR("Base"), false);
+            writeOsName();
             break;
         case L_NUMERIC:
             oled_write_ln_P(PSTR("Numeric"), false);
