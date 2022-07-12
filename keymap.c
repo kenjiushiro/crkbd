@@ -62,6 +62,7 @@ enum custom_keycodes  {
     CUT,
     COPY,
     PASTE,
+    SCREENSHOT,
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -97,7 +98,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_PSCR, KC_BSPC, WORD_MODIFIER,  KC_DEL,  KC_ENT, XXXXXXX,              KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT, UNDO, CUT,  COPY, PASTE,XXXXXXX,                      XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
+            KC_LSFT,     UNDO,      CUT,     COPY,    PASTE, SCREENSHOT,                  XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                     _______, XXXXXXX, XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
             //`--------------------------'  `--------------------------'
@@ -300,6 +301,32 @@ void paste(void) {
     }
 }
 
+void screenshot(void) {
+    switch (currentOS) {
+        case _MAC:
+            register_code(KC_LGUI);
+            register_code(KC_LSFT);
+            tap_code(KC_X);
+            register_code(KC_LSFT);
+            unregister_code(KC_LGUI);
+            unregister_code(KC_LSFT);
+            break;
+        case _WINDOWS:
+            register_code(KC_LGUI);
+            register_code(KC_LSFT);
+            tap_code(KC_S);
+            register_code(KC_LSFT);
+            unregister_code(KC_LGUI);
+            unregister_code(KC_LSFT);
+            break;
+        case _LINUX:
+            register_code(KC_LCTL);
+            tap_code(KC_V);
+            unregister_code(KC_LCTL);
+            break;
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
         case GMAIL_EMAIL:
@@ -358,6 +385,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
                 unregister_code(KC_TAB);
             }
             break;
+        case SCREENSHOT:
+            if (record->event.pressed) {
+                screenshot();
+                return false;
+            }
+            break;
+
         // case CHECKOUT_TN_BR:
         //     if (record->event.pressed) {
         //         SEND_STRING("4111111111111111");
