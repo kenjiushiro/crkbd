@@ -165,6 +165,8 @@ void register_desktop_switch_modifier(void) {
             register_code(KC_LCTL);
             break;
         case _LINUX:
+            register_code(KC_LCTL);
+            register_code(KC_LGUI);
             break;
     }
 }
@@ -179,13 +181,30 @@ void unregister_desktop_switch_modifier(void) {
             unregister_code(KC_LCTL);
             break;
         case _LINUX:
+            unregister_code(KC_LCTL);
+            unregister_code(KC_LGUI);
             break;
     }
 }
 
+
 void desktop_switch(int direction) {
     register_desktop_switch_modifier();
-    tap_code(direction);
+    if (currentOS == _LINUX) {
+        if (direction == KC_RIGHT) {
+            tap_code(KC_DOWN);
+        }
+        else if (direction == KC_LEFT) {
+            tap_code(KC_UP);
+        }
+        else if (direction == KC_UP) {
+            unregister_code(KC_LCTL);
+            tap_code(KC_D);
+        }
+
+    } else {
+        tap_code(direction);
+    }
     unregister_desktop_switch_modifier();
 }
 
@@ -320,9 +339,7 @@ void screenshot(void) {
             unregister_code(KC_LSFT);
             break;
         case _LINUX:
-            register_code(KC_LCTL);
-            tap_code(KC_V);
-            unregister_code(KC_LCTL);
+            tap_code(KC_PSCR);
             break;
     }
 }
