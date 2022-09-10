@@ -202,7 +202,16 @@ void desktop_switch(int direction) {
             tap_code(KC_D);
         }
 
-    } else {
+    }
+    else if (currentOS == _WINDOWS) {
+      if (direction == KC_UP) {
+            unregister_code(KC_LCTL);
+            tap_code(KC_TAB);
+      } else {
+            tap_code(direction);
+      }
+    }
+    else {
         tap_code(direction);
     }
     unregister_desktop_switch_modifier();
