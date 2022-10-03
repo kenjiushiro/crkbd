@@ -63,18 +63,49 @@ enum custom_keycodes  {
     COPY,
     PASTE,
     SCREENSHOT,
+    ENIE,
 };
+
+
+#define NUM_LAYER LT(_NUMERIC, KC_TAB)
+#define NAV_LAYER MO(_NAVIGATION)
+#define SYM_LAYER MO(_SYMBOLS)
+#define FN_LAYER MO(_FN_KEYS)
+#define CONF_LAYER MO(_CONFIG)
+#define PLUS_SIGN LSFT(KC_EQL)
+#define ASTERISK LSFT(KC_8)
+#define BANG LSFT(KC_1)
+#define PERCENT LSFT(KC_5)
+#define HASHTAG LSFT(KC_3)
+#define FIRULITO LSFT(KC_GRV)
+#define CARET LSFT(KC_6)
+#define AMPERSAND LSFT(KC_7)
+#define ARROBA LSFT(KC_2)
+#define DOLLAR LSFT(KC_4)
+#define PIPE LSFT(KC_BSLS)
+#define COMILLA_SIMP KC_QUOT
+#define COMILLA_DOBL LSFT(KC_QUOT)
+#define AB_PARENT LSFT(KC_9)
+#define CE_PARENT LSFT(KC_0)
+#define AB_CORCHE KC_LBRC
+#define CE_CORCHE KC_RBRC
+#define AB_LLAVE LSFT(KC_LBRC)
+#define CE_LLAVE LSFT(KC_RBRC)
+#define UNDERSCORE LSFT(KC_MINUS)
+#define GREATER LSFT(KC_DOT)
+#define LESS_THAN LSFT(KC_COMM)
+
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            LT(_NUMERIC, KC_TAB), KC_Q,KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+            NUM_LAYER,  KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
             //|---BKP--+---Q-----+---W----+----E---+----R---+---T----|                    |--------+--------+--------+--------+--------+--------|
-            LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                         KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_DEL,
+            LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                   KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_DEL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ENT,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                         MO(_NAVIGATION),MO(_SYMBOLS),KC_SPC,    KC_LGUI, MO(_FN_KEYS),KC_LALT
+                                            NAV_LAYER,SYM_LAYER,KC_SPC,         KC_LGUI, FN_LAYER,KC_LALT
             //`--------------------------'  `--------------------------'
 
             ),
@@ -82,9 +113,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NUMERIC] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            _______,  KC_TAB,LSFT(KC_EQL),KC_MINUS,KC_EQL, XXXXXXX,                    XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX, KC_BSPC,
+            _______,  KC_TAB,PLUS_SIGN,KC_MINUS,KC_EQL, XXXXXXX,                    XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX, KC_BSPC,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LCTL, XXXXXXX,LSFT(KC_8),KC_SLSH, XXXXXXX, XXXXXXX,                     XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,  KC_DEL,
+            KC_LCTL, XXXXXXX,ASTERISK,KC_SLSH, XXXXXXX, XXXXXXX,                     XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,  KC_DEL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT, XXXXXXX, KC_LALT, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,    KC_1,    KC_2,    KC_3, XXXXXXX,  KC_ENT,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -98,7 +129,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_PSCR, KC_BSPC, WORD_MODIFIER,  KC_DEL,  KC_ENT, XXXXXXX,              KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT,     UNDO,      CUT,     COPY,    PASTE, SCREENSHOT,                  XXXXXXX, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
+            KC_LSFT,     UNDO,      CUT,     COPY,    PASTE, SCREENSHOT,                  ENIE, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                     _______, XXXXXXX, XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
             //`--------------------------'  `--------------------------'
@@ -106,24 +137,24 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_SYMBOLS] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            LSFT(KC_GRV),LSFT(KC_1),LSFT(KC_5),LSFT(KC_3),LSFT(KC_8),XXXXXXX,         XXXXXXX,LSFT(KC_4),LSFT(KC_LBRC),LSFT(KC_RBRC),KC_EQL,KC_BSPC,
+            FIRULITO,BANG,PERCENT,HASHTAG,ASTERISK,XXXXXXX,                              XXXXXXX,DOLLAR,AB_LLAVE,CE_LLAVE,KC_EQL,KC_BSPC,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            LSFT(KC_2),LSFT(KC_4),KC_GRV,LSFT(KC_QUOT),KC_QUOT,XXXXXXX,               XXXXXXX, LSFT(KC_9),LSFT(KC_0),XXXXXXX, KC_MINUS,LSFT(KC_DOT),
+            ARROBA,DOLLAR,KC_GRV,COMILLA_DOBL,KC_QUOT,XXXXXXX,               XXXXXXX, AB_PARENT,CE_PARENT,XXXXXXX, KC_MINUS,GREATER,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT,KC_BSLS,LSFT(KC_6),LSFT(KC_7),LSFT(KC_BSLS),XXXXXXX,              XXXXXXX,KC_LBRC,KC_RBRC,XXXXXXX,LSFT(KC_MINUS),XXXXXXX,
+            KC_LSFT,KC_BSLS,CARET,AMPERSAND,PIPE,XXXXXXX,              XXXXXXX,AB_CORCHE,CE_CORCHE,XXXXXXX,UNDERSCORE,XXXXXXX,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                    XXXXXXX, _______, XXXXXXX,     XXXXXXX, MO(_CONFIG), XXXXXXX
+                                                    XXXXXXX, _______, XXXXXXX,     XXXXXXX, CONF_LAYER, XXXXXXX
             //`--------------------------'  `--------------------------'
             ),
     [_FN_KEYS] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            XXXXXXX,LSFT(KC_2),LSFT(KC_COMM),LSFT(KC_DOT),XXXXXXX, XXXXXXX,            XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
+            XXXXXXX,ARROBA,LESS_THAN,GREATER,XXXXXXX, XXXXXXX,            XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LCTL, LSFT(KC_2),LSFT(KC_EQL),KC_MINUS, KC_EQL, XXXXXXX,                XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,
+            KC_LCTL, ARROBA,PLUS_SIGN,KC_MINUS, KC_EQL, XXXXXXX,                XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                              KC_LALT, MO(_CONFIG), KC_LGUI,    XXXXXXX, _______, XXXXXXX
+                                              KC_LALT, CONF_LAYER, KC_LGUI,    XXXXXXX, _______, XXXXXXX
             //`--------------------------'  `--------------------------'
             ),
 
@@ -353,6 +384,21 @@ void screenshot(void) {
     }
 }
 
+void enie(void) {
+    switch (currentOS) {
+        case _MAC:
+            register_code(KC_LALT);
+            tap_code(KC_N);
+            unregister_code(KC_LALT);
+            tap_code(KC_N);
+            break;
+        case _WINDOWS:
+            break;
+        case _LINUX:
+            break;
+    }
+}
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     switch(keycode) {
         case GMAIL_EMAIL:
@@ -382,6 +428,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         case PHONE_NUMBER:
             if (record->event.pressed) {
                 SEND_STRING("1164484715");
+            }
+            return false;
+            break;
+        case ENIE:
+            if (record->event.pressed) {
+                enie();
             }
             return false;
             break;
