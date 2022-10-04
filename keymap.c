@@ -27,43 +27,44 @@ bool is_alt_tab_active = false;
 uint16_t alt_tab_timer = 0;
 
 enum OS {
-    _MAC,
-    _WINDOWS,
-    _LINUX,
+  _MAC,
+  _WINDOWS,
+  _LINUX,
 };
 
 int currentOS = _MAC;
 
 enum layers {
-    _QWERTY,
-    _NUMERIC,
-    _NAVIGATION,
-    _SYMBOLS,
-    _FN_KEYS,
-    _CONFIG,
+  _QWERTY,
+  _NUMERIC,
+  _NAVIGATION,
+  _SYMBOLS,
+  _FN_KEYS,
+  _CONFIG,
 };
 
 enum custom_keycodes  {
-    GMAIL_EMAIL = SAFE_RANGE,
-    LIVE_EMAIL,
-    TIENDANUBE_EMAIL,
-    DNI,
-    PHONE_NUMBER,
-    ALT_TAB,
-    LSALT_TAB,
-    DESKTOP_LEFT,
-    DESKTOP_RIGHT,
-    DESKTOP_UP,
-    SWITCH_TO_MAC,
-    SWITCH_TO_WINDOWS,
-    SWITCH_TO_LINUX,
-    WORD_MODIFIER,
-    UNDO,
-    CUT,
-    COPY,
-    PASTE,
-    SCREENSHOT,
-    ENIE,
+  GMAIL_EMAIL = SAFE_RANGE,
+  LIVE_EMAIL,
+  TIENDANUBE_EMAIL,
+  DNI,
+  PHONE_NUMBER,
+  ALT_TAB,
+  LSALT_TAB,
+  DESKTOP_LEFT,
+  DESKTOP_RIGHT,
+  DESKTOP_UP,
+  SWITCH_TO_MAC,
+  SWITCH_TO_WINDOWS,
+  SWITCH_TO_LINUX,
+  WORD_MODIFIER,
+  UNDO,
+  CUT,
+  COPY,
+  PASTE,
+  SCREENSHOT,
+  ENIE,
+  MISSION_CONTROL,
 };
 
 
@@ -127,7 +128,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             LSALT_TAB,  ALT_TAB, DESKTOP_LEFT,DESKTOP_UP,DESKTOP_RIGHT,KC_INS,        XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_PSCR, KC_BSPC, WORD_MODIFIER,  KC_DEL,  KC_ENT, XXXXXXX,              KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
+            MISSION_CONTROL, KC_BSPC, WORD_MODIFIER,  KC_DEL,  KC_ENT, XXXXXXX,              KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,     UNDO,      CUT,     COPY,    PASTE, SCREENSHOT,                  ENIE, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -173,409 +174,433 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
 void writeOsName(void) {
-    switch (currentOS) {
-        case _WINDOWS:
-            oled_write_ln_P(PSTR("Windows"), false);
-            break;
-        case _MAC:
-            oled_write_ln_P(PSTR("Mac"), false);
-            break;
-        case _LINUX:
-            oled_write_ln_P(PSTR("Linux"), false);
-            break;
-    }
+  switch (currentOS) {
+    case _WINDOWS:
+      oled_write_ln_P(PSTR("Windows"), false);
+      break;
+    case _MAC:
+      oled_write_ln_P(PSTR("Mac"), false);
+      break;
+    case _LINUX:
+      oled_write_ln_P(PSTR("Linux"), false);
+      break;
+  }
+}
+
+void mission_control(void) {
+  switch (currentOS) {
+    case _WINDOWS:
+      register_code(KC_LCTL);
+      tap_code(KC_SPC);
+      unregister_code(KC_LCTL);
+      break;
+    case _MAC:
+      register_code(KC_LGUI);
+      tap_code(KC_SPC);
+      unregister_code(KC_LGUI);
+      break;
+    case _LINUX:
+      tap_code(KC_LGUI);
+      break;
+  }
 }
 
 void register_desktop_switch_modifier(void) {
-    switch (currentOS) {
-        case _WINDOWS:
-            register_code(KC_LCTL);
-            register_code(KC_LGUI);
-            break;
-        case _MAC:
-            register_code(KC_LCTL);
-            break;
-        case _LINUX:
-            register_code(KC_LCTL);
-            register_code(KC_LGUI);
-            break;
-    }
+  switch (currentOS) {
+    case _WINDOWS:
+      register_code(KC_LALT);
+      register_code(KC_LGUI);
+      break;
+    case _MAC:
+      register_code(KC_LCTL);
+      break;
+    case _LINUX:
+      register_code(KC_LCTL);
+      register_code(KC_LGUI);
+      break;
+  }
 }
 
 void unregister_desktop_switch_modifier(void) {
-    switch (currentOS) {
-        case _WINDOWS:
-            unregister_code(KC_LCTL);
-            unregister_code(KC_LGUI);
-            break;
-        case _MAC:
-            unregister_code(KC_LCTL);
-            break;
-        case _LINUX:
-            unregister_code(KC_LCTL);
-            unregister_code(KC_LGUI);
-            break;
-    }
+  switch (currentOS) {
+    case _WINDOWS:
+      unregister_code(KC_LCTL);
+      unregister_code(KC_LGUI);
+      break;
+    case _MAC:
+      unregister_code(KC_LCTL);
+      break;
+    case _LINUX:
+      unregister_code(KC_LCTL);
+      unregister_code(KC_LGUI);
+      break;
+  }
 }
 
 
 void desktop_switch(int direction) {
-    register_desktop_switch_modifier();
-    if (currentOS == _LINUX) {
-        if (direction == KC_RIGHT) {
-            tap_code(KC_DOWN);
-        }
-        else if (direction == KC_LEFT) {
-            tap_code(KC_UP);
-        }
-        else if (direction == KC_UP) {
-            unregister_code(KC_LCTL);
-            tap_code(KC_D);
-        }
+  register_desktop_switch_modifier();
+  if (currentOS == _LINUX) {
+    if (direction == KC_RIGHT) {
+      tap_code(KC_DOWN);
+    }
+    else if (direction == KC_LEFT) {
+      tap_code(KC_UP);
+    }
+    else if (direction == KC_UP) {
+      unregister_code(KC_LCTL);
+      tap_code(KC_D);
+    }
 
+  }
+  else if (currentOS == _WINDOWS) {
+    if (direction == KC_UP) {
+      unregister_code(KC_LCTL);
+      tap_code(KC_TAB);
+    } else {
+      tap_code(direction);
     }
-    else if (currentOS == _WINDOWS) {
-      if (direction == KC_UP) {
-            unregister_code(KC_LCTL);
-            tap_code(KC_TAB);
-      } else {
-            tap_code(direction);
-      }
-    }
-    else {
-        tap_code(direction);
-    }
-    unregister_desktop_switch_modifier();
+  }
+  else {
+    tap_code(direction);
+  }
+  unregister_desktop_switch_modifier();
 }
 
 void register_alt_tab_modifier(void) {
-    switch (currentOS) {
-        case _MAC:
-            register_code(KC_LGUI);
-            break;
-        case _WINDOWS:
-        case _LINUX:
-            register_code(KC_LALT);
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      register_code(KC_LGUI);
+      break;
+    case _WINDOWS:
+    case _LINUX:
+      register_code(KC_LALT);
+      break;
+  }
 }
 
 void unregister_alt_tab_modifier(void) {
-    switch (currentOS) {
-        case _MAC:
-            unregister_code(KC_LGUI);
-            break;
-        case _WINDOWS:
-        case _LINUX:
-            unregister_code(KC_LALT);
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      unregister_code(KC_LGUI);
+      break;
+    case _WINDOWS:
+    case _LINUX:
+      unregister_code(KC_LALT);
+      break;
+  }
 }
 
 void hold_word_modifier(void) {
-    switch (currentOS) {
-        case _MAC:
-            register_code(KC_LALT);
-            break;
-        case _WINDOWS:
-        case _LINUX:
-            register_code(KC_LCTL);
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      register_code(KC_LALT);
+      break;
+    case _WINDOWS:
+    case _LINUX:
+      register_code(KC_LCTL);
+      break;
+  }
 }
 
 void unhold_word_modifier(void) {
-    switch (currentOS) {
-        case _MAC:
-            unregister_code(KC_LALT);
-            break;
-        case _WINDOWS:
-        case _LINUX:
-            unregister_code(KC_LCTL);
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      unregister_code(KC_LALT);
+      break;
+    case _WINDOWS:
+    case _LINUX:
+      unregister_code(KC_LCTL);
+      break;
+  }
 }
 
 void undo(void) {
-    switch (currentOS) {
-        case _MAC:
-            register_code(KC_LGUI);
-            tap_code(KC_Z);
-            unregister_code(KC_LGUI);
-            break;
-        case _WINDOWS:
-        case _LINUX:
-            register_code(KC_LCTL);
-            tap_code(KC_Z);
-            unregister_code(KC_LCTL);
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      register_code(KC_LGUI);
+      tap_code(KC_Z);
+      unregister_code(KC_LGUI);
+      break;
+    case _WINDOWS:
+    case _LINUX:
+      register_code(KC_LCTL);
+      tap_code(KC_Z);
+      unregister_code(KC_LCTL);
+      break;
+  }
 }
 
 void cut(void) {
-    switch (currentOS) {
-        case _MAC:
-            register_code(KC_LGUI);
-            tap_code(KC_X);
-            unregister_code(KC_LGUI);
-            break;
-        case _WINDOWS:
-        case _LINUX:
-            register_code(KC_LCTL);
-            tap_code(KC_X);
-            unregister_code(KC_LCTL);
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      register_code(KC_LGUI);
+      tap_code(KC_X);
+      unregister_code(KC_LGUI);
+      break;
+    case _WINDOWS:
+    case _LINUX:
+      register_code(KC_LCTL);
+      tap_code(KC_X);
+      unregister_code(KC_LCTL);
+      break;
+  }
 }
 
 void copy(void) {
-    switch (currentOS) {
-        case _MAC:
-            register_code(KC_LGUI);
-            tap_code(KC_C);
-            unregister_code(KC_LGUI);
-            break;
-        case _WINDOWS:
-        case _LINUX:
-            register_code(KC_LCTL);
-            tap_code(KC_C);
-            unregister_code(KC_LCTL);
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      register_code(KC_LGUI);
+      tap_code(KC_C);
+      unregister_code(KC_LGUI);
+      break;
+    case _WINDOWS:
+    case _LINUX:
+      register_code(KC_LCTL);
+      tap_code(KC_C);
+      unregister_code(KC_LCTL);
+      break;
+  }
 }
 
 void paste(void) {
-    switch (currentOS) {
-        case _MAC:
-            register_code(KC_LGUI);
-            tap_code(KC_V);
-            unregister_code(KC_LGUI);
-            break;
-        case _WINDOWS:
-        case _LINUX:
-            register_code(KC_LCTL);
-            tap_code(KC_V);
-            unregister_code(KC_LCTL);
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      register_code(KC_LGUI);
+      tap_code(KC_V);
+      unregister_code(KC_LGUI);
+      break;
+    case _WINDOWS:
+    case _LINUX:
+      register_code(KC_LCTL);
+      tap_code(KC_V);
+      unregister_code(KC_LCTL);
+      break;
+  }
 }
 
 void screenshot(void) {
-    switch (currentOS) {
-        case _MAC:
-            register_code(KC_LGUI);
-            register_code(KC_LSFT);
-            tap_code(KC_X);
-            register_code(KC_LSFT);
-            unregister_code(KC_LGUI);
-            unregister_code(KC_LSFT);
-            break;
-        case _WINDOWS:
-            register_code(KC_LGUI);
-            register_code(KC_LSFT);
-            tap_code(KC_S);
-            register_code(KC_LSFT);
-            unregister_code(KC_LGUI);
-            unregister_code(KC_LSFT);
-            break;
-        case _LINUX:
-            tap_code(KC_PSCR);
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      register_code(KC_LGUI);
+      register_code(KC_LSFT);
+      tap_code(KC_X);
+      register_code(KC_LSFT);
+      unregister_code(KC_LGUI);
+      unregister_code(KC_LSFT);
+      break;
+    case _WINDOWS:
+      register_code(KC_LGUI);
+      register_code(KC_LSFT);
+      tap_code(KC_S);
+      register_code(KC_LSFT);
+      unregister_code(KC_LGUI);
+      unregister_code(KC_LSFT);
+      break;
+    case _LINUX:
+      tap_code(KC_PSCR);
+      break;
+  }
 }
 
 void enie(void) {
-    switch (currentOS) {
-        case _MAC:
-            register_code(KC_LALT);
-            tap_code(KC_N);
-            unregister_code(KC_LALT);
-            tap_code(KC_N);
-            break;
-        case _WINDOWS:
-            break;
-        case _LINUX:
-            break;
-    }
+  switch (currentOS) {
+    case _MAC:
+      register_code(KC_LALT);
+      tap_code(KC_N);
+      unregister_code(KC_LALT);
+      tap_code(KC_N);
+      break;
+    case _WINDOWS:
+      break;
+    case _LINUX:
+      break;
+  }
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-    switch(keycode) {
-        case GMAIL_EMAIL:
-            if (record->event.pressed) {
-                SEND_STRING("kenjimartinushiro@gmail.com");
-            }
-            return false;
-            break;
-        case LIVE_EMAIL:
-            if (record->event.pressed) {
-                SEND_STRING("kenjiushiro@live.com");
-            }
-            return false;
-            break;
-        case TIENDANUBE_EMAIL:
-            if (record->event.pressed) {
-                SEND_STRING("kenji.ushiro@tiendanube.com");
-            }
-            return false;
-            break;
-        case DNI:
-            if (record->event.pressed) {
-                SEND_STRING("38521991");
-            }
-            return false;
-            break;
-        case PHONE_NUMBER:
-            if (record->event.pressed) {
-                SEND_STRING("1164484715");
-            }
-            return false;
-            break;
-        case ENIE:
-            if (record->event.pressed) {
-                enie();
-            }
-            return false;
-            break;
-        case ALT_TAB:
-            if (record->event.pressed) {
-                if (!is_alt_tab_active) {
-                    is_alt_tab_active = true;
-                    register_alt_tab_modifier();
-                }
-                alt_tab_timer = timer_read();
-                register_code(KC_TAB);
-            } else {
-                unregister_code(KC_TAB);
-            }
-            break;
-        case LSALT_TAB:
-            if (record->event.pressed) {
-                if (!is_alt_tab_active) {
-                    is_alt_tab_active = true;
-                    register_code(KC_LALT);
-                }
-                alt_tab_timer = timer_read();
-                register_code(KC_LSFT);
-                register_code(KC_TAB);
-                unregister_code(KC_LSFT);
-            } else {
-                unregister_code(KC_TAB);
-            }
-            break;
-        case SCREENSHOT:
-            if (record->event.pressed) {
-                screenshot();
-                return false;
-            }
-            break;
+  switch(keycode) {
+    case GMAIL_EMAIL:
+      if (record->event.pressed) {
+        SEND_STRING("kenjimartinushiro@gmail.com");
+      }
+      return false;
+      break;
+    case LIVE_EMAIL:
+      if (record->event.pressed) {
+        SEND_STRING("kenjiushiro@live.com");
+      }
+      return false;
+      break;
+    case TIENDANUBE_EMAIL:
+      if (record->event.pressed) {
+        SEND_STRING("kenji.ushiro@tiendanube.com");
+      }
+      return false;
+      break;
+    case DNI:
+      if (record->event.pressed) {
+        SEND_STRING("38521991");
+      }
+      return false;
+      break;
+    case PHONE_NUMBER:
+      if (record->event.pressed) {
+        SEND_STRING("1164484715");
+      }
+      return false;
+      break;
+    case ENIE:
+      if (record->event.pressed) {
+        enie();
+      }
+      return false;
+      break;
+    case MISSION_CONTROL:
+      if (record->event.pressed) {
+        mission_control();
+      }
+      return false;
+      break;
+    case ALT_TAB:
+      if (record->event.pressed) {
+        if (!is_alt_tab_active) {
+          is_alt_tab_active = true;
+          register_alt_tab_modifier();
+        }
+        alt_tab_timer = timer_read();
+        register_code(KC_TAB);
+      } else {
+        unregister_code(KC_TAB);
+      }
+      break;
+    case LSALT_TAB:
+      if (record->event.pressed) {
+        if (!is_alt_tab_active) {
+          is_alt_tab_active = true;
+          register_code(KC_LALT);
+        }
+        alt_tab_timer = timer_read();
+        register_code(KC_LSFT);
+        register_code(KC_TAB);
+        unregister_code(KC_LSFT);
+      } else {
+        unregister_code(KC_TAB);
+      }
+      break;
+    case SCREENSHOT:
+      if (record->event.pressed) {
+        screenshot();
+        return false;
+      }
+      break;
 
-        // case CHECKOUT_TN_BR:
-        //     if (record->event.pressed) {
-        //         SEND_STRING("4111111111111111");
-        //         tap_code(KC_TAB);
-        //         SEND_STRING("pepe lopez");
-        //         tap_code(KC_TAB);
-        //         SEND_STRING("1225");
-        //         tap_code(KC_TAB);
-        //         SEND_STRING("321");
-        //         tap_code(KC_TAB);
-        //         tap_code(KC_TAB);
-        //         SEND_STRING("826.218.005-48");
-        //         tap_code(KC_TAB);
-        //         SEND_STRING("0123132321");
-        //         tap_code(KC_TAB);
-        //     }
-        //     return false;
-        //     break;
-        case DESKTOP_LEFT:
-            if (record->event.pressed) {
-                desktop_switch(KC_LEFT);
-                return false;
-            }
-            break;
-        case DESKTOP_RIGHT:
-            if (record->event.pressed) {
-                desktop_switch(KC_RIGHT);
-            }
-            return false;
-            break;
-        case DESKTOP_UP:
-            if (record->event.pressed) {
-                desktop_switch(KC_UP);
-            }
-            return false;
-            break;
-        case SWITCH_TO_MAC:
-            if (record->event.pressed) {
-                currentOS = _MAC;
-            }
-            return false;
-            break;
-        case SWITCH_TO_WINDOWS:
-            if (record->event.pressed) {
-                currentOS = _WINDOWS;
-            }
-            return false;
-            break;
-        case SWITCH_TO_LINUX:
-            if (record->event.pressed) {
-                currentOS = _LINUX;
-            }
-            return false;
-            break;
-        case WORD_MODIFIER:
-            if (record->event.pressed) {
-                hold_word_modifier();
-            } else {
-                unhold_word_modifier();
-            }
-            return false;
-            break;
-        case UNDO:
-            if (record->event.pressed) {
-                undo();
-            }
-            return false;
-            break;
-        case CUT:
-            if (record->event.pressed) {
-                cut();
-            }
-            return false;
-            break;
-        case COPY:
-            if (record->event.pressed) {
-                copy();
-            }
-            return false;
-            break;
-        case PASTE:
-            if (record->event.pressed) {
-                paste();
-            }
-            return false;
-            break;
+      // case CHECKOUT_TN_BR:
+      //     if (record->event.pressed) {
+      //         SEND_STRING("4111111111111111");
+      //         tap_code(KC_TAB);
+      //         SEND_STRING("pepe lopez");
+      //         tap_code(KC_TAB);
+      //         SEND_STRING("1225");
+      //         tap_code(KC_TAB);
+      //         SEND_STRING("321");
+      //         tap_code(KC_TAB);
+      //         tap_code(KC_TAB);
+      //         SEND_STRING("826.218.005-48");
+      //         tap_code(KC_TAB);
+      //         SEND_STRING("0123132321");
+      //         tap_code(KC_TAB);
+      //     }
+      //     return false;
+      //     break;
+    case DESKTOP_LEFT:
+      if (record->event.pressed) {
+        desktop_switch(KC_LEFT);
+        return false;
+      }
+      break;
+    case DESKTOP_RIGHT:
+      if (record->event.pressed) {
+        desktop_switch(KC_RIGHT);
+      }
+      return false;
+      break;
+    case DESKTOP_UP:
+      if (record->event.pressed) {
+        desktop_switch(KC_UP);
+      }
+      return false;
+      break;
+    case SWITCH_TO_MAC:
+      if (record->event.pressed) {
+        currentOS = _MAC;
+      }
+      return false;
+      break;
+    case SWITCH_TO_WINDOWS:
+      if (record->event.pressed) {
+        currentOS = _WINDOWS;
+      }
+      return false;
+      break;
+    case SWITCH_TO_LINUX:
+      if (record->event.pressed) {
+        currentOS = _LINUX;
+      }
+      return false;
+      break;
+    case WORD_MODIFIER:
+      if (record->event.pressed) {
+        hold_word_modifier();
+      } else {
+        unhold_word_modifier();
+      }
+      return false;
+      break;
+    case UNDO:
+      if (record->event.pressed) {
+        undo();
+      }
+      return false;
+      break;
+    case CUT:
+      if (record->event.pressed) {
+        cut();
+      }
+      return false;
+      break;
+    case COPY:
+      if (record->event.pressed) {
+        copy();
+      }
+      return false;
+      break;
+    case PASTE:
+      if (record->event.pressed) {
+        paste();
+      }
+      return false;
+      break;
 
-    }
-    return true;
+  }
+  return true;
 }
 
 void matrix_scan_user(void) { // The very important timer.
-    if (is_alt_tab_active) {
-        if (timer_elapsed(alt_tab_timer) > 866) {
-            unregister_alt_tab_modifier();
-            is_alt_tab_active = false;
-        }
+  if (is_alt_tab_active) {
+    if (timer_elapsed(alt_tab_timer) > 866) {
+      unregister_alt_tab_modifier();
+      is_alt_tab_active = false;
     }
+  }
 }
 
 #ifdef OLED_ENABLE
 oled_rotation_t oled_init_user(oled_rotation_t rotation) {
-    if (!is_keyboard_master()) {
-        return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
-    }
-    return rotation;
+  if (!is_keyboard_master()) {
+    return OLED_ROTATION_180;  // flips the display 180 degrees if offhand
+  }
+  return rotation;
 }
 
 #define L_BASE 0
@@ -586,94 +611,94 @@ oled_rotation_t oled_init_user(oled_rotation_t rotation) {
 #define L_MOUSE 32
 
 void oled_render_layer_state(void) {
-    oled_write_P(PSTR("Layer: "), false);
-    switch (layer_state) {
-        case L_BASE:
-            writeOsName();
-            break;
-        case L_NUMERIC:
-            oled_write_ln_P(PSTR("Numeric"), false);
-            break;
-        case L_NAVIGATION:
-            oled_write_ln_P(PSTR("Navigation"), false);
-            break;
-        case L_SYMBOLS:
-            oled_write_ln_P(PSTR("Symbols"), false);
-            break;
-        case L_FUNCTION_KEYS:
-            oled_write_ln_P(PSTR("Function Keys"), false);
-            break;
-        case L_MOUSE:
-            oled_write_ln_P(PSTR("Mouse mode"), false);
-            break;
-        case L_SYMBOLS|L_NUMERIC:
-        case L_SYMBOLS|L_NAVIGATION:
-        case L_SYMBOLS|L_NUMERIC|L_NAVIGATION:
-            oled_write_ln_P(PSTR("Adjust"), false);
-            break;
-    }
+  oled_write_P(PSTR("Layer: "), false);
+  switch (layer_state) {
+    case L_BASE:
+      writeOsName();
+      break;
+    case L_NUMERIC:
+      oled_write_ln_P(PSTR("Numeric"), false);
+      break;
+    case L_NAVIGATION:
+      oled_write_ln_P(PSTR("Navigation"), false);
+      break;
+    case L_SYMBOLS:
+      oled_write_ln_P(PSTR("Symbols"), false);
+      break;
+    case L_FUNCTION_KEYS:
+      oled_write_ln_P(PSTR("Function Keys"), false);
+      break;
+    case L_MOUSE:
+      oled_write_ln_P(PSTR("Mouse mode"), false);
+      break;
+    case L_SYMBOLS|L_NUMERIC:
+    case L_SYMBOLS|L_NAVIGATION:
+    case L_SYMBOLS|L_NUMERIC|L_NAVIGATION:
+      oled_write_ln_P(PSTR("Adjust"), false);
+      break;
+  }
 }
 
 
 char keylog_str[24] = {};
 
 const char code_to_name[60] = {
-    ' ', ' ', ' ', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
-    'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
-    'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
-    '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
-    'R', 'E', 'B', 'T', '_', '-', '=', '[', ']', '\\',
-    '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
+  ' ', ' ', ' ', ' ', 'a', 'b', 'c', 'd', 'e', 'f',
+  'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p',
+  'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+  '1', '2', '3', '4', '5', '6', '7', '8', '9', '0',
+  'R', 'E', 'B', 'T', '_', '-', '=', '[', ']', '\\',
+  '#', ';', '\'', '`', ',', '.', '/', ' ', ' ', ' '};
 
 void set_keylog(uint16_t keycode, keyrecord_t *record) {
-    char name = ' ';
-    if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) ||
-            (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) { keycode = keycode & 0xFF; }
-    if (keycode < 60) {
-        name = code_to_name[keycode];
-    }
+  char name = ' ';
+  if ((keycode >= QK_MOD_TAP && keycode <= QK_MOD_TAP_MAX) ||
+      (keycode >= QK_LAYER_TAP && keycode <= QK_LAYER_TAP_MAX)) { keycode = keycode & 0xFF; }
+  if (keycode < 60) {
+    name = code_to_name[keycode];
+  }
 
-    // update keylog
-    snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c",
-            record->event.key.row, record->event.key.col,
-            keycode, name);
+  // update keylog
+  snprintf(keylog_str, sizeof(keylog_str), "%dx%d, k%2d : %c",
+      record->event.key.row, record->event.key.col,
+      keycode, name);
 }
 
 void oled_render_keylog(void) {
-    oled_write(keylog_str, false);
+  oled_write(keylog_str, false);
 }
 
 void render_bootmagic_status(bool status) {
-    /* Show Ctrl-Gui Swap options */
-    static const char PROGMEM logo[][2][3] = {
-        {{0x97, 0x98, 0}, {0xb7, 0xb8, 0}},
-        {{0x95, 0x96, 0}, {0xb5, 0xb6, 0}},
-    };
-    if (status) {
-        oled_write_ln_P(logo[0][0], false);
-        oled_write_ln_P(logo[0][1], false);
-    } else {
-        oled_write_ln_P(logo[1][0], false);
-        oled_write_ln_P(logo[1][1], false);
-    }
+  /* Show Ctrl-Gui Swap options */
+  static const char PROGMEM logo[][2][3] = {
+    {{0x97, 0x98, 0}, {0xb7, 0xb8, 0}},
+    {{0x95, 0x96, 0}, {0xb5, 0xb6, 0}},
+  };
+  if (status) {
+    oled_write_ln_P(logo[0][0], false);
+    oled_write_ln_P(logo[0][1], false);
+  } else {
+    oled_write_ln_P(logo[1][0], false);
+    oled_write_ln_P(logo[1][1], false);
+  }
 }
 
 void oled_render_logo(void) {
-    static const char PROGMEM crkbd_logo[] = {
-        0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
-        0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
-        0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
-        0};
-    oled_write_P(crkbd_logo, false);
+  static const char PROGMEM crkbd_logo[] = {
+    0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
+    0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
+    0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
+    0};
+  oled_write_P(crkbd_logo, false);
 }
 
 bool oled_task_user(void) {
-    if (is_keyboard_master()) {
-        oled_render_layer_state();
-        oled_render_keylog();
-    } else {
-        oled_render_logo();
-    }
-    return false;
+  if (is_keyboard_master()) {
+    oled_render_layer_state();
+    oled_render_keylog();
+  } else {
+    oled_render_logo();
+  }
+  return false;
 }
 #endif // OLED_ENABLE
