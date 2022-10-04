@@ -137,11 +137,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_SYMBOLS] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            FIRULITO,BANG,PERCENT,HASHTAG,ASTERISK,XXXXXXX,                              XXXXXXX,DOLLAR,AB_LLAVE,CE_LLAVE,KC_EQL,KC_BSPC,
+               FIRULITO,BANG,    PERCENT, HASHTAG, ASTERISK,XXXXXXX,                      XXXXXXX, DOLLAR,  AB_LLAVE,CE_LLAVE,KC_EQL,  KC_BSPC,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            ARROBA,DOLLAR,KC_GRV,COMILLA_DOBL,KC_QUOT,XXXXXXX,               XXXXXXX, AB_PARENT,CE_PARENT,XXXXXXX, KC_MINUS,GREATER,
+               ARROBA,  DOLLAR,  KC_GRV,  COMILLA_DOBL,KC_QUOT,XXXXXXX,                   XXXXXXX, AB_PARENT,CE_PARENT,XXXXXXX, KC_MINUS,GREATER,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT,KC_BSLS,CARET,AMPERSAND,PIPE,XXXXXXX,              XXXXXXX,AB_CORCHE,CE_CORCHE,XXXXXXX,UNDERSCORE,XXXXXXX,
+            KC_LSFT,    KC_BSLS, CARET,   AMPERSAND,PIPE,   XXXXXXX,                      XXXXXXX, AB_CORCHE,CE_CORCHE,XXXXXXX,UNDERSCORE,XXXXXXX,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                     XXXXXXX, _______, XXXXXXX,     XXXXXXX, CONF_LAYER, XXXXXXX
             //`--------------------------'  `--------------------------'
