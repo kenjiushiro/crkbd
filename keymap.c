@@ -190,9 +190,9 @@ void writeOsName(void) {
 void mission_control(void) {
   switch (currentOS) {
     case _WINDOWS:
-      register_code(KC_LCTL);
+      register_code(KC_LALT);
       tap_code(KC_SPC);
-      unregister_code(KC_LCTL);
+      unregister_code(KC_LALT);
       break;
     case _MAC:
       register_code(KC_LGUI);
@@ -207,13 +207,10 @@ void mission_control(void) {
 
 void register_desktop_switch_modifier(void) {
   switch (currentOS) {
-    case _WINDOWS:
-      register_code(KC_LALT);
-      register_code(KC_LGUI);
-      break;
     case _MAC:
       register_code(KC_LCTL);
       break;
+    case _WINDOWS:
     case _LINUX:
       register_code(KC_LCTL);
       register_code(KC_LGUI);
@@ -223,13 +220,10 @@ void register_desktop_switch_modifier(void) {
 
 void unregister_desktop_switch_modifier(void) {
   switch (currentOS) {
-    case _WINDOWS:
-      unregister_code(KC_LCTL);
-      unregister_code(KC_LGUI);
-      break;
     case _MAC:
       unregister_code(KC_LCTL);
       break;
+    case _WINDOWS:
     case _LINUX:
       unregister_code(KC_LCTL);
       unregister_code(KC_LGUI);
@@ -237,34 +231,40 @@ void unregister_desktop_switch_modifier(void) {
   }
 }
 
-
-void desktop_switch(int direction) {
+void previous_desktop(void) {
   register_desktop_switch_modifier();
   if (currentOS == _LINUX) {
-    if (direction == KC_RIGHT) {
-      tap_code(KC_DOWN);
-    }
-    else if (direction == KC_LEFT) {
-      tap_code(KC_UP);
-    }
-    else if (direction == KC_UP) {
-      unregister_code(KC_LCTL);
-      tap_code(KC_D);
-    }
-
-  }
-  else if (currentOS == _WINDOWS) {
-    if (direction == KC_UP) {
-      unregister_code(KC_LCTL);
-      tap_code(KC_TAB);
-    } else {
-      tap_code(direction);
-    }
-  }
-  else {
-    tap_code(direction);
+    tap_code(KC_UP);
+  } else {
+    tap_code(KC_LEFT);
   }
   unregister_desktop_switch_modifier();
+}
+
+void next_desktop(void) {
+  register_desktop_switch_modifier();
+  if (currentOS == _LINUX) {
+    tap_code(KC_DOWN);
+  } else {
+    tap_code(KC_RIGHT);
+  }
+  unregister_desktop_switch_modifier();
+}
+
+void show_desktops(void) {
+  if (currentOS == _LINUX) {
+    register_code(KC_LGUI);
+    tap_code(KC_D);
+    unregister_code(KC_LGUI);
+  } else if (currentOS == _WINDOWS) {
+    register_code(KC_LGUI);
+    tap_code(KC_TAB);
+    unregister_code(KC_LGUI);
+  } else if (currentOS == _MAC) {
+    register_code(KC_LCTL);
+    tap_code(KC_UP);
+    unregister_code(KC_LCTL);
+  }
 }
 
 void register_alt_tab_modifier(void) {
@@ -303,7 +303,7 @@ void hold_word_modifier(void) {
   }
 }
 
-void unhold_word_modifier(void) {
+void release_word_modifier(void) {
   switch (currentOS) {
     case _MAC:
       unregister_code(KC_LALT);
@@ -515,19 +515,19 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       //     break;
     case DESKTOP_LEFT:
       if (record->event.pressed) {
-        desktop_switch(KC_LEFT);
-        return false;
+        previous_desktop();
       }
+      return false;
       break;
     case DESKTOP_RIGHT:
       if (record->event.pressed) {
-        desktop_switch(KC_RIGHT);
+        next_desktop();
       }
       return false;
       break;
     case DESKTOP_UP:
       if (record->event.pressed) {
-        desktop_switch(KC_UP);
+        show_desktops();
       }
       return false;
       break;
@@ -553,7 +553,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         hold_word_modifier();
       } else {
-        unhold_word_modifier();
+        release_word_modifier();
       }
       return false;
       break;
