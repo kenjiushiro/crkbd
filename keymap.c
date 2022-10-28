@@ -39,6 +39,7 @@ enum layers {
   _NUMERIC,
   _NUMERIC2,
   _NAVIGATION,
+  _NAVIGATION2,
   _SYMBOLS,
   _FN_KEYS,
   _CONFIG,
@@ -145,7 +146,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,     UNDO,      CUT,     COPY,    PASTE, SCREENSHOT,                  ENIE, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                    _______, XXXXXXX, XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
+                                                    _______, MO(_NAVIGATION2), XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
             //`--------------------------'  `--------------------------'
             ),
 
@@ -157,9 +158,22 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,    KC_BSLS, CARET,   AMPERSAND,PIPE,   XXXXXXX,                      XXXXXXX, AB_CORCHE,CE_CORCHE,XXXXXXX,UNDERSCORE,XXXXXXX,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                    XXXXXXX, _______, XXXXXXX,     XXXXXXX, CONF_LAYER, XXXXXXX
+                                                    MO(_NAVIGATION2), _______, XXXXXXX,     XXXXXXX, CONF_LAYER, XXXXXXX
             //`--------------------------'  `--------------------------'
             ),
+
+    [_NAVIGATION2] = LAYOUT_split_3x6_3(
+            //,-----------------------------------------------------.                    ,-----------------------------------------------------.
+               XXXXXXX, XXXXXXX, XXXXXXX, KC_UP, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+            //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+               XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+            //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+               XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+            //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
+                                                    _______, _______, XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
+            //`--------------------------'  `--------------------------'
+            ),
+
     [_FN_KEYS] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             XXXXXXX,ARROBA,LESS_THAN,GREATER,XXXXXXX, XXXXXXX,            XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
