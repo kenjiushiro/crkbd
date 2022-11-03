@@ -37,9 +37,7 @@ int currentOS = _MAC;
 enum layers {
   _QWERTY,
   _NUMERIC,
-  _NUMERIC2,
   _NAVIGATION,
-  _NAVIGATION2,
   _SYMBOLS,
   _FN_KEYS,
   _CONFIG,
@@ -116,25 +114,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NUMERIC] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            _______,LT(_NUMERIC2, KC_TAB),XXXXXXX,XXXXXXX,XXXXXXX,XXXXXXX,               XXXXXXX,    KC_7,    KC_8,    KC_9, XXXXXXX, KC_BSPC,
+               _______, KC_TAB,  XXXXXXX, XXXXXXX, ASTERISK,XXXXXXX,                      XXXXXXX, KC_7,    KC_8,    KC_9,    XXXXXXX, KC_BSPC,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LCTL,   XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,    KC_4,    KC_5,    KC_6, XXXXXXX,  KC_DEL,
+               KC_LCTL, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      PLUS_SIGN,KC_4,   KC_5,    KC_6,    KC_MINUS, KC_DEL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,    KC_1,    KC_2,    KC_3, XXXXXXX,  KC_ENT,
+               KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, KC_1,    KC_2,    KC_3,    KC_SLSH, KC_ENT,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                    KC_LCTL,  KC_DOT,  KC_SPC,    KC_LGUI,    KC_0, XXXXXXX
-            //`--------------------------'  `--------------------------'
-            ),
-
-    [_NUMERIC2] = LAYOUT_split_3x6_3(
-            //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            _______,  _______,   XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX,                    XXXXXXX,   ASTERISK,    KC_SLSH,    XXXXXXX, XXXXXXX, KC_BSPC,
-            //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            XXXXXXX, XXXXXXX,XXXXXXX,XXXXXXX, XXXXXXX, XXXXXXX,                     XXXXXXX,    PLUS_SIGN,   KC_MINUS,    XXXXXXX, XXXXXXX,  KC_DEL,
-            //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,    LESS_THAN,    GREATER,    XXXXXXX, XXXXXXX,  KC_ENT,
-            //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                    KC_LCTL,  KC_COMM,  KC_SPC,    KC_LGUI,    KC_EQL, XXXXXXX
+                                                    KC_COMM,  KC_DOT,  KC_SPC,    KC_LGUI,    KC_0, XXXXXXX
             //`--------------------------'  `--------------------------'
             ),
 
@@ -146,7 +132,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,     UNDO,      CUT,     COPY,    PASTE, SCREENSHOT,                  ENIE, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                    _______, MO(_NAVIGATION2), XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
+                                                    _______, XXXXXXX, XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
             //`--------------------------'  `--------------------------'
             ),
 
@@ -158,19 +144,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,    KC_BSLS, CARET,   AMPERSAND,PIPE,   XXXXXXX,                      XXXXXXX, AB_CORCHE,CE_CORCHE,XXXXXXX,UNDERSCORE,XXXXXXX,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                    MO(_NAVIGATION2), _______, XXXXXXX,     XXXXXXX, CONF_LAYER, XXXXXXX
-            //`--------------------------'  `--------------------------'
-            ),
-
-    [_NAVIGATION2] = LAYOUT_split_3x6_3(
-            //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-               XXXXXXX, XXXXXXX, XXXXXXX, KC_UP, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-            //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-               XXXXXXX, XXXXXXX, KC_LEFT, KC_DOWN, KC_RIGHT, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-            //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-               XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-            //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
-                                                    _______, _______, XXXXXXX,     KC_LGUI, XXXXXXX, XXXXXXX
+                                                    XXXXXXX, _______, XXXXXXX,     XXXXXXX, CONF_LAYER, XXXXXXX
             //`--------------------------'  `--------------------------'
             ),
 
