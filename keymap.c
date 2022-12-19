@@ -46,7 +46,7 @@ enum layers {
 enum custom_keycodes  {
   GMAIL_EMAIL = SAFE_RANGE,
   LIVE_EMAIL,
-  TIENDANUBE_EMAIL,
+  WORK_EMAIL,
   DNI,
   PHONE_NUMBER,
   ALT_TAB,
@@ -164,7 +164,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             KC_TAB, XXXXXXX, KC_MS_U, XXXXXXX, XXXXXXX, SWITCH_TO_WINDOWS,                      KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, LIVE_EMAIL, GMAIL_EMAIL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, SWITCH_TO_MAC,                      XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX, TIENDANUBE_EMAIL,
+            XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, SWITCH_TO_MAC,                      XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX, WORK_EMAIL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, SWITCH_TO_LINUX,                      XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, DNI, PHONE_NUMBER,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -433,9 +433,9 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       return false;
       break;
-    case TIENDANUBE_EMAIL:
+    case WORK_EMAIL:
       if (record->event.pressed) {
-        SEND_STRING("kenji.ushiro@tiendanube.com");
+        SEND_STRING("kenji.ushiro@craftlabs.net");
       }
       return false;
       break;
