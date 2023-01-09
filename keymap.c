@@ -32,7 +32,7 @@ enum OS {
   _LINUX,
 };
 
-int currentOS = _MAC;
+int currentOS = _WINDOWS;
 
 enum layers {
   _QWERTY,
@@ -100,8 +100,8 @@ enum custom_keycodes  {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     [_QWERTY] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            NUM_LAYER,  KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,                         KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
-            //|---BKP--+---Q-----+---W----+----E---+----R---+---T----|                    |--------+--------+--------+--------+--------+--------|
+            NUM_LAYER,  KC_Q,     KC_W,    KC_E,    KC_R,    KC_T,                        KC_Y,    KC_U,    KC_I,    KC_O,   KC_P,  KC_BSPC,
+            //|---BKP--+---Q-----+---W----+----E---+----R---+---T----|                   |--------+--------+--------+--------+--------+--------|
             LCTL_T(KC_ESC),   KC_A,    KC_S,    KC_D,    KC_F,    KC_G,                   KC_H,    KC_J,    KC_K,    KC_L, KC_SCLN,  KC_DEL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,                         KC_N,    KC_M, KC_COMM,  KC_DOT, KC_SLSH,  KC_ENT,
@@ -126,9 +126,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAVIGATION] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            LSALT_TAB,  ALT_TAB, DESKTOP_LEFT,DESKTOP_UP,DESKTOP_RIGHT,KC_INS,        XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
+            LSALT_TAB,  ALT_TAB, DESKTOP_LEFT,DESKTOP_UP,DESKTOP_RIGHT,KC_INS,            XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            MISSION_CONTROL, KC_BSPC, WORD_MODIFIER,  KC_DEL,  KC_ENT, XXXXXXX,              KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
+            MISSION_CONTROL, KC_BSPC, WORD_MODIFIER,  KC_DEL,  KC_ENT, XXXXXXX,           KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,     UNDO,      CUT,     COPY,    PASTE, SCREENSHOT,                  ENIE, KC_PGDN, KC_PGUP, XXXXXXX, XXXXXXX, KC_ENT,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -150,11 +150,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_FN_KEYS] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            XXXXXXX,ARROBA,LESS_THAN,GREATER,XXXXXXX, XXXXXXX,            XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
+            XXXXXXX,ARROBA,LESS_THAN,GREATER,XXXXXXX, XXXXXXX,                            XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LCTL, ARROBA,PLUS_SIGN,KC_MINUS, KC_EQL, XXXXXXX,                XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,
+            KC_LCTL, ARROBA,PLUS_SIGN,KC_MINUS, KC_EQL, XXXXXXX,                          XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                      XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,
+            KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                         XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                               KC_LALT, CONF_LAYER, KC_LGUI,    XXXXXXX, _______, XXXXXXX
             //`--------------------------'  `--------------------------'
@@ -162,11 +162,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_CONFIG] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            KC_TAB, XXXXXXX, KC_MS_U, XXXXXXX, XXXXXXX, SWITCH_TO_WINDOWS,                      KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, LIVE_EMAIL, GMAIL_EMAIL,
+            KC_TAB, XXXXXXX, KC_MS_U, XXXXXXX, XXXXXXX, SWITCH_TO_WINDOWS,                KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, LIVE_EMAIL, GMAIL_EMAIL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, SWITCH_TO_MAC,                      XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX, WORK_EMAIL,
+            XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, SWITCH_TO_LINUX,                 XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX, WORK_EMAIL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, SWITCH_TO_LINUX,                      XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, DNI, PHONE_NUMBER,
+            RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, SWITCH_TO_MAC,                   XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, DNI, PHONE_NUMBER,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                                 XXXXXXX, _______,  XXXXXXX,     XXXXXXX, _______, XXXXXXX
             //`--------------------------'  `--------------------------'
