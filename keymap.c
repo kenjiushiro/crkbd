@@ -47,6 +47,7 @@ enum custom_keycodes  {
   GMAIL_EMAIL = SAFE_RANGE,
   LIVE_EMAIL,
   WORK_EMAIL,
+  WORK_EMAIL2,
   DNI,
   PHONE_NUMBER,
   ALT_TAB,
@@ -126,7 +127,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NAVIGATION] = LAYOUT_split_3x6_3(
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
-            LSALT_TAB,  ALT_TAB, DESKTOP_LEFT,DESKTOP_UP,DESKTOP_RIGHT,KC_INS,            XXXXXXX, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
+            LSALT_TAB,  ALT_TAB, DESKTOP_LEFT,DESKTOP_UP,DESKTOP_RIGHT,KC_INS,            KC_PRINT_SCREEN, XXXXXXX, KC_HOME,  KC_END, XXXXXXX, KC_BSPC,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             MISSION_CONTROL, KC_BSPC, WORD_MODIFIER,  KC_DEL,  KC_ENT, XXXXXXX,           KC_LEFT, KC_DOWN,   KC_UP,KC_RIGHT, XXXXXXX, KC_DEL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
@@ -164,7 +165,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
             KC_TAB, XXXXXXX, KC_MS_U, XXXXXXX, XXXXXXX, SWITCH_TO_WINDOWS,                KC_WH_L, KC_WH_D, KC_WH_U, KC_WH_R, LIVE_EMAIL, GMAIL_EMAIL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-            XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, SWITCH_TO_LINUX,                 XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, XXXXXXX, WORK_EMAIL,
+            XXXXXXX, KC_MS_L, KC_MS_D, KC_MS_R, XXXXXXX, SWITCH_TO_LINUX,                 XXXXXXX, KC_BTN1, KC_BTN2, KC_BTN3, WORK_EMAIL2, WORK_EMAIL,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             RGB_TOG, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, SWITCH_TO_MAC,                   XXXXXXX, KC_MPRV, KC_MPLY, KC_MNXT, DNI, PHONE_NUMBER,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -386,18 +387,10 @@ void screenshot(void) {
       register_code(KC_LGUI);
       register_code(KC_LSFT);
       tap_code(KC_X);
-      register_code(KC_LSFT);
       unregister_code(KC_LGUI);
       unregister_code(KC_LSFT);
       break;
     case _WINDOWS:
-      register_code(KC_LGUI);
-      register_code(KC_LSFT);
-      tap_code(KC_S);
-      register_code(KC_LSFT);
-      unregister_code(KC_LGUI);
-      unregister_code(KC_LSFT);
-      break;
     case _LINUX:
       tap_code(KC_PSCR);
       break;
@@ -435,7 +428,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case WORK_EMAIL:
       if (record->event.pressed) {
-        SEND_STRING("kenji.ushiro@craftlabs.net");
+        SEND_STRING("workemail1@work.com");
+      }
+      return false;
+      break;
+    case WORK_EMAIL2:
+      if (record->event.pressed) {
+        SEND_STRING("workemail2@work.com");
       }
       return false;
       break;
