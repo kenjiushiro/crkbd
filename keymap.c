@@ -406,6 +406,12 @@ void enie(void) {
       tap_code(KC_N);
       break;
     case _WINDOWS:
+      register_code(KC_LALT);
+      tap_code(KC_KP_0);
+      tap_code(KC_KP_2);
+      tap_code(KC_KP_4);
+      tap_code(KC_KP_1);
+      unregister_code(KC_LALT);
       break;
     case _LINUX:
       break;
