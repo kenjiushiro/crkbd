@@ -141,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             //,-----------------------------------------------------.                    ,-----------------------------------------------------.
                FIRULITO,BANG,    PERCENT, HASHTAG, ASTERISK,XXXXXXX,                      XXXXXXX, DOLLAR,  AB_LLAVE,CE_LLAVE,KC_EQL,  KC_BSPC,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
-               ARROBA,  DOLLAR,  KC_GRV,  COMILLA_DOBL,KC_QUOT,XXXXXXX,                   XXXXXXX, AB_PARENT,CE_PARENT,XXXXXXX, KC_MINUS,GREATER,
+               ARROBA,  DOLLAR,  KC_GRV,  COMILLA_DOBL,KC_QUOT,XXXXXXX,                   LESS_THAN, AB_PARENT,CE_PARENT,XXXXXXX, KC_MINUS,GREATER,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT,    KC_BSLS, CARET,   AMPERSAND,PIPE,   XXXXXXX,                      XXXXXXX, AB_CORCHE,CE_CORCHE,XXXXXXX,UNDERSCORE,XXXXXXX,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
@@ -154,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             XXXXXXX,ARROBA,LESS_THAN,GREATER,XXXXXXX, XXXXXXX,                            XXXXXXX,   KC_F1,   KC_F2,   KC_F3,   KC_F4, XXXXXXX,
             //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LCTL, ARROBA,PLUS_SIGN,KC_MINUS, KC_EQL, XXXXXXX,                          XXXXXXX,   KC_F5,   KC_F6,   KC_F7,   KC_F8, XXXXXXX,
-            //|--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
+            //->--------+--------+--------+--------+--------+--------|                    |--------+--------+--------+--------+--------+--------|
             KC_LSFT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,                         XXXXXXX,   KC_F9,  KC_F10,  KC_F11,  KC_F12, XXXXXXX,
             //|--------+--------+--------+--------+--------+--------+--------|  |--------+--------+--------+--------+--------+--------+--------|
                                               KC_LALT, CONF_LAYER, KC_LGUI,    XXXXXXX, _______, XXXXXXX
@@ -495,24 +495,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       }
       break;
 
-      // case CHECKOUT_TN_BR:
-      //     if (record->event.pressed) {
-      //         SEND_STRING("4111111111111111");
-      //         tap_code(KC_TAB);
-      //         SEND_STRING("pepe lopez");
-      //         tap_code(KC_TAB);
-      //         SEND_STRING("1225");
-      //         tap_code(KC_TAB);
-      //         SEND_STRING("321");
-      //         tap_code(KC_TAB);
-      //         tap_code(KC_TAB);
-      //         SEND_STRING("826.218.005-48");
-      //         tap_code(KC_TAB);
-      //         SEND_STRING("0123132321");
-      //         tap_code(KC_TAB);
-      //     }
-      //     return false;
-      //     break;
     case DESKTOP_LEFT:
       if (record->event.pressed) {
         previous_desktop();
