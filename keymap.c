@@ -414,6 +414,16 @@ void enie(void) {
       unregister_code(KC_LALT);
       break;
     case _LINUX:
+      register_code(KC_LCTL);
+      register_code(KC_LSFT);
+      tap_code(KC_U);
+      unregister_code(KC_LCTL);
+      unregister_code(KC_LSFT);
+      tap_code(KC_0);
+      tap_code(KC_0);
+      tap_code(KC_F);
+      tap_code(KC_1);
+      tap_code(KC_ENT);
       break;
   }
 }
