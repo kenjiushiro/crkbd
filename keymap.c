@@ -261,9 +261,7 @@ void show_desktops(void) {
     tap_code(KC_TAB);
     unregister_code(KC_LGUI);
   } else if (currentOS == _MAC) {
-    register_code(KC_LCTL);
-    tap_code(KC_UP);
-    unregister_code(KC_LCTL);
+    tap_code(KC_LGUI);
   }
 }
 
