@@ -212,8 +212,11 @@ void register_desktop_switch_modifier(void) {
     case _MAC:
       register_code(KC_LCTL);
       break;
-    case _WINDOWS:
     case _LINUX:
+      register_code(KC_LCTL);
+      register_code(KC_LALT);
+      break;
+    case _WINDOWS:
       register_code(KC_LCTL);
       register_code(KC_LGUI);
       break;
@@ -225,9 +228,12 @@ void unregister_desktop_switch_modifier(void) {
     case _MAC:
       unregister_code(KC_LCTL);
       break;
-    case _WINDOWS:
     case _LINUX:
-      unregister_code(KC_LCTL);
+      register_code(KC_LCTL);
+      register_code(KC_LALT);
+      break;
+    case _WINDOWS:
+      unregster_code(KC_LCTL);
       unregister_code(KC_LGUI);
       break;
   }
@@ -235,21 +241,13 @@ void unregister_desktop_switch_modifier(void) {
 
 void previous_desktop(void) {
   register_desktop_switch_modifier();
-  if (currentOS == _LINUX) {
-    tap_code(KC_UP);
-  } else {
-    tap_code(KC_LEFT);
-  }
+  tap_code(KC_LEFT);
   unregister_desktop_switch_modifier();
 }
 
 void next_desktop(void) {
   register_desktop_switch_modifier();
-  if (currentOS == _LINUX) {
-    tap_code(KC_DOWN);
-  } else {
-    tap_code(KC_RIGHT);
-  }
+  tap_code(KC_RIGHT);
   unregister_desktop_switch_modifier();
 }
 
