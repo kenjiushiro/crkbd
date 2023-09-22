@@ -229,11 +229,11 @@ void unregister_desktop_switch_modifier(void) {
       unregister_code(KC_LCTL);
       break;
     case _LINUX:
-      register_code(KC_LCTL);
-      register_code(KC_LALT);
+      unregister_code(KC_LCTL);
+      unregister_code(KC_LALT);
       break;
     case _WINDOWS:
-      unregster_code(KC_LCTL);
+      unregister_code(KC_LCTL);
       unregister_code(KC_LGUI);
       break;
   }
@@ -442,13 +442,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
     case WORK_EMAIL:
       if (record->event.pressed) {
-        SEND_STRING("workemail1@work.com");
+        SEND_STRING("kenji.ushiro@craftlabs.net");
       }
       return false;
       break;
     case WORK_EMAIL2:
       if (record->event.pressed) {
-        SEND_STRING("workemail2@work.com");
+        SEND_STRING("kenji.m.ushiro@gsk.com");
       }
       return false;
       break;
