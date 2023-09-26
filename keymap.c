@@ -89,3 +89,73 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             )
 };
 
+#ifdef OLED_ENABLE
+void writeOsName(void) {
+  switch (currentOS) {
+    case _WINDOWS:
+      oled_write_ln_P(PSTR("Windows"), false);
+      break;
+    case _MAC:
+      oled_write_ln_P(PSTR("Mac"), false);
+      break;
+    case _LINUX:
+      oled_write_ln_P(PSTR("Linux"), false);
+      break;
+  }
+}
+
+#define L_BASE 0
+#define L_NUMERIC 2
+#define L_NAVIGATION 4
+#define L_SYMBOLS 8
+#define L_FUNCTION_KEYS 16
+#define L_MOUSE 32
+
+void oled_render_layer_state(void) {
+  oled_write_P(PSTR("Layer: "), false);
+  switch (layer_state) {
+    case L_BASE:
+      writeOsName();
+      break;
+    case L_NUMERIC:
+      oled_write_ln_P(PSTR("Numeric"), false);
+      break;
+    case L_NAVIGATION:
+      oled_write_ln_P(PSTR("Navigation"), false);
+      break;
+    case L_SYMBOLS:
+      oled_write_ln_P(PSTR("Symbols"), false);
+      break;
+    case L_FUNCTION_KEYS:
+      oled_write_ln_P(PSTR("Function Keys"), false);
+      break;
+    case L_MOUSE:
+      oled_write_ln_P(PSTR("Mouse mode"), false);
+      break;
+    case L_SYMBOLS|L_NUMERIC:
+    case L_SYMBOLS|L_NAVIGATION:
+    case L_SYMBOLS|L_NUMERIC|L_NAVIGATION:
+      oled_write_ln_P(PSTR("Adjust"), false);
+      break;
+  }
+}
+
+
+void oled_render_logo(void) {
+  static const char PROGMEM crkbd_logo[] = {
+    0x80, 0x81, 0x82, 0x83, 0x84, 0x85, 0x86, 0x87, 0x88, 0x89, 0x8a, 0x8b, 0x8c, 0x8d, 0x8e, 0x8f, 0x90, 0x91, 0x92, 0x93, 0x94,
+    0xa0, 0xa1, 0xa2, 0xa3, 0xa4, 0xa5, 0xa6, 0xa7, 0xa8, 0xa9, 0xaa, 0xab, 0xac, 0xad, 0xae, 0xaf, 0xb0, 0xb1, 0xb2, 0xb3, 0xb4,
+    0xc0, 0xc1, 0xc2, 0xc3, 0xc4, 0xc5, 0xc6, 0xc7, 0xc8, 0xc9, 0xca, 0xcb, 0xcc, 0xcd, 0xce, 0xcf, 0xd0, 0xd1, 0xd2, 0xd3, 0xd4,
+    0};
+  oled_write_P(crkbd_logo, false);
+}
+
+bool oled_task_user(void) {
+  if (is_keyboard_master()) {
+    oled_render_layer_state();
+  } else {
+    oled_render_logo();
+  }
+  return false;
+}
+#endif // OLED_ENABLE
