@@ -35,7 +35,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
     [_NUMERIC] = LAYOUT_split_3x6_3(
         //---TAB---|----Q----|----W----|----E----|----R----|----T----|              |----Y----|----U----|----I----|----O----|----P----|---BKP---|
-          _______,  KC_TAB,   XXXXXXX,  XXXXXXX,  KC_ASTR, XXXXXXX,                  KC_EQL,   KC_7,     KC_8,     KC_9,     XXXXXXX,  KC_BSPC,
+          _______,  KC_TAB,   XXXXXXX,  XXXXXXX,  KC_ASTR, TG(_GAMING),              KC_EQL,   KC_7,     KC_8,     KC_9,     XXXXXXX,  KC_BSPC,
         //---ESC---|----A----|----S----|----D----|----F----|----G----|              |----H----|----J----|----K----|----L----|----;----|---DEL---|
           KC_LCTL,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,                 KC_PLUS,  KC_4,     KC_5,     KC_6,     KC_MINUS, KC_DEL,
         //---SFT---|----Z----|----X----|----C----|----V----|----B----|              |----N----|----M----|----,----|----.----|----/----|---ENT---|
@@ -86,6 +86,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
           QK_BOOT,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  LNX_LYR,                 XXXXXXX,  KC_MPRV,  KC_MPLY,  KC_MNXT,  DNI,      PHONE_NUMBER,
                                             //---NAV---|---SYM---|---SPC---|  |---GUI---|---FNC---|---ALT---|
                                               XXXXXXX,  _______,  XXXXXXX,     XXXXXXX,  _______,  XXXXXXX
+            ),
+
+    [_GAMING] = LAYOUT_split_3x6_3(
+        //---TAB---|----Q----|----W----|----E----|----R----|----T----|              |----Y----|----U----|----I----|----O----|----P----|---BKP---|
+          KC_TAB,   KC_1,     KC_2,     KC_W,     KC_E,     KC_R,                    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+        //---ESC---|----A----|----S----|----D----|----F----|----G----|              |----H----|----J----|----K----|----L----|----;----|---DEL---|
+          KC_ESC,   KC_LSFT,  KC_A,     KC_S,     KC_D,     KC_G,                    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+        //---SFT---|----Z----|----X----|----C----|----V----|----B----|              |----N----|----M----|----,----|----.----|----/----|---ENT---|
+          KC_3,     KC_LCTL,  KC_Z,     KC_X,     KC_C,     KC_B,                    XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,  XXXXXXX,
+                                            //---NAV---|---SYM---|---SPC---|  |---GUI---|---FNC---|---ALT---|
+                                              KC_4,     KC_5,     KC_SPC,      XXXXXXX,  XXXXXXX,  XXXXXXX
             )
 };
 
